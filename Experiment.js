@@ -6,18 +6,24 @@ Experiment = {
         Crafty.background('rgb(127,127,127)');
        
         //Paddles
-        Crafty.e("Paddle, Color, Arc, Fourway, Collision")
+
+        Crafty.e("2D, Canvas, Paddle, Arc, Color,  Collision")
             .arc(20, 0, Math.PI / 2 ,'rgb(0,0,255)')
-            .collision(new Crafty.circle(0,0,20))
+            .collision(new Crafty.polygon(ArcPointData(20, 0, Math.PI/2)))
             .attr({ x: 20, y: 100 })
             .onHit('ball',function(){
                     console.log('left');
             });
   
-        Crafty.e("Paddle, 2D, Canvas, Color, Multiway")
+        //Crafty.e("2D,Canvas,solid,Collision,Multiway")
+        //    .collision([10,10],[15,10])
+        //    .onHit("solid", function(){
+        //        console.log("hit!");
+        //})
+
+        Crafty.e("Paddle, 2D, Canvas, Color")
              .color('rgb(0,255,0)')
              .attr({ x: 580, y: 100, w: 10, h: 100 });
-             //.multiway(4, { UP_ARROW: -90, DOWN_ARROW: 90 });
         
         //Ball
 //        Crafty.e("2D, DOM, Color, Collision")
