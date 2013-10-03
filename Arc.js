@@ -6,12 +6,13 @@
          //    this._draw(e);
          //})
          this.draw = this._draw;
+         console.log(this);
          return this;
      },
  
      arc: function(radius, pi_b,  pi, color) {
          this.radius = radius;
-         this.w = this.h = radius * 2+2;
+         this.w = this.h = radius * 2;//+2;
          this.color = color || "#000000";
          this.pi_b = pi_b;
          this.pi = pi;
@@ -31,7 +32,7 @@
             this.y + this.radius + 1,
             this.radius,
             this.pi_b,
-            this.pi_b + this.pi
+            this.pi
         );
         ctx.stroke();
         ctx.closePath();
