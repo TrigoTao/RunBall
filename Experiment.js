@@ -10,7 +10,7 @@ Experiment = {
         Crafty.e("2D, Canvas, Paddle, Arc, Color,  Collision, WiredHitBox")
             .attr({ x: 20, y: 100 })
             .arc(20, 0, Math.PI / 2 ,'rgb(0,0,255)')
-            .collision(new Crafty.polygon(ArcPointData(20, 0, Math.PI/2)).shift(20,100))
+            .collision(new Crafty.polygon(ArcPointData(20, 0, Math.PI/2)))
             .onHit('Ball',function(){
                     console.log('left');
             });
@@ -24,11 +24,11 @@ Experiment = {
                     console.log('right');
             });
         
-        ball_r = 10;
+        ball_r = 5;
         Crafty.e("Ball, 2D, Canvas, Collision, Fourway, WiredHitBox")
             //.arc(ball_r, 0, Math.PI * 2, 'red')
             //.color('red')
-            .attr({x:250, y:50, w: 10, h :10})
+            //.attr({x:250, y:50, w: 10, h :10})
             .fourway(2)
             .collision(new Crafty.circle(0,0,ball_r))
             .onHit('Paddle', function () {
