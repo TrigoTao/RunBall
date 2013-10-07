@@ -1,21 +1,16 @@
- Crafty.c("Arc", {
-     init: function(){
+Crafty.c('Line',{
+    init: function(){
         this.requires('2D, Canvas, Color');
-        //this.bind("Draw", function(e){
-        //    console.log("Draw");
-        //    this._draw(e);
-        //})
         this.draw = this._draw;
-        this.shape = 'Arc';
+        this.shape = 'Line';
         return this;
      },
  
-     arc: function(radius, pi_b,  pi, lineWidth, color) {
-        this.radius = radius;
+     line: function(point_b, point_e, lineWidth, color) {
         this.w = this.h = radius * 2 + 2;
         this.color = color || "#000000";
-        this.pi_b = pi_b;
-        this.pi = pi;
+        this.point_e = point_e;
+        this.point_b = point_b;
         this.lineWidth = lineWidth || 10;
         
         this.trigger('Change');
@@ -77,51 +72,3 @@
     }
 
  })
-
- //{{{ Circle Component
-//   Crafty.c("Circle", {
-//       _radius: 8,
-//       fillStyle:"rgba(0,255,0,1)",
-//       strokeStyle: "rgba(0,0,0,0)",
-//       ready: true,
-//
-//       get radius() { console.log('hen bu ke xue!');return this._radius; },
-//       //set radius(r) {
-//       //         console.log("bu ke xue");
-//       //        this._radius = r;
-//       //        this.w = this.h = 2*this.radius;
-//       //        this.trigger("change");
-//       //},
-//
-//       init: function() {
-//               this.requires("2D, Canvas");
-//
-//               this.w = this.h = 2*this.radius;
-//               var TWO_PI = Math.PI*2;
-//
-//               this.bind("Draw", function(e) {
-//                   console.log("draw");
-//                   e.ctx.fillStyle = this.fillStyle;
-//                   e.ctx.strokeStyle = this.strokeStyle;
-//                   e.ctx.beginPath();
-//                   e.ctx.arc(this.x, this.y, this.radius, 0, TWO_PI, true);
-//                   e.ctx.closePath();
-//                   e.ctx.fill();
-//               });
-//               this.trigger("change");
-//               return this;
-//       },
-//       circle: function(radius) {
-//               this.radius = radius;
-//               this.trigger("change");
-//               console.log("circle");
-//               return this;
-//       },
-//
-//       color: function(c) {
-//               //this.fillStyle = Crafty.toRGB(c,this.alpha);
-//               this.fillStyle = Crafty.toRGB(c, 1);
-//               return this;
-//       }
-//   });
- //}}}

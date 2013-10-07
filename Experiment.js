@@ -7,32 +7,26 @@ Experiment = {
        
         //Paddles
 
-        Crafty.e("2D, Canvas, Paddle, Arc, Color,  Collision, WiredHitBox")
-            .attr({ x: 50, y: 150 })
-            .arc(20, Math.PI/2, Math.PI,'rgb(0,0,255)')
-            .collision(new Crafty.polygon(ArcPointData(20, Math.PI/2, Math.PI)))
-            .onHit('Ball',function(){
-                    console.log('left');
-            });
-  
+        var track = Crafty.e("Track")
+            .push( Crafty.e("Arc")
+                    .attr({ x: 50, y: 150 })
+                    .arc(50, Math.PI/2, Math.PI*3/2, 20, 'green')
+            );
 
         Crafty.e("Paddle, 2D, Canvas, Color, Collision,WiredHitBox")
             .color('rgb(0,255,0)')
             .attr({ x: 580, y: 100, w: 10, h: 100 })
             .collision()
             .onHit('Ball',function(){
-                    console.log('right');
+                console.log('right');
             });
         
-        ball_r = 10;
-        Crafty.e("Ball, 2D, Canvas, Collision, Fourway, WiredHitBox")
-            //.arc(ball_r, 0, Math.PI * 2, 'red')
-            //.color('red')
-            .attr({x:250, y:50, w: 10, h :10})
+        Crafty.e("Ball, Fourway")
+            .appear(250,50,5)
             .fourway(2)
-            .collision(new Crafty.circle(0,0,ball_r))
-            .onHit('Paddle', function () {
-                //console.log("hit");
+            .bind("Moved", function(from){
+                var center = this.getCenter();
+                console.log(track.containsPoint(center.x,center.y));
             });
 
         //Score boards
