@@ -5,22 +5,16 @@ Experiment = {
         Crafty.init(WIDTH, HEIGHT);
         Crafty.background('rgb(127,127,127)');
 
-        Crafty.e("Ball, Fourway")
-            .appear(250,50,5)
-            .fourway(1)
-            .bind("Moved", function(from){
-                var center = this.getCenter();
-                console.log(track.containsPoint(center.x,center.y,5));
-            });
        
         //Paddles
+        //Crafty.e("Line").line([20,150],[10,10],20,'green')
 
         var track = Crafty.e("Track")
             .push( Crafty.e("Arc")
                     .attr({ x: 50, y: 150 })
                     .arc(50, Math.PI/2, Math.PI*3/2, 20, 'green')
             )
-            .push( Crafty.e("Line").line([200,150],[100,150],20,'green'))
+            .push( Crafty.e("Line").line([300,150],[100,150],20,'green'))
             //.push( Crafty.e("Line").line([200,20],[40,40],1,'black'))
             //.push( Crafty.e("Line").line([198.7,10.0],[38.7,30.0],1,'black') );
 
@@ -32,6 +26,19 @@ Experiment = {
                 console.log('right');
             });
         
+
+        Crafty.e("Ball, Fourway")
+            .appear(250,50,5)
+            .fourway(1)
+            .bind("Moved", function(){
+                var center = this.getCenter();
+                this.nowIn = track.containsPoint(center.x,center.y,5);
+                if(this.nowIn == false && this.lastTimeIn){
+                    this.appear(250,50,5);
+                    console.log('out');
+                }
+                this.lastTimeIn = this.nowIn;
+            });
 
         //Score boards
         //Crafty.e("LeftPoints, DOM, 2D, Text")

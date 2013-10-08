@@ -11,11 +11,19 @@ Crafty.c('Line',{
         this.color = color || "#000000";
         this.point_e = point_e;
         this.point_b = point_b;
-        this.x = point_b[0];
-        this.y = point_b[1];
-        this.w = point_e[0] - point_b[0];
-        this.h = point_e[1] - point_b[1];
         this.lineWidth = lineWidth || 10;
+
+        var d = this.linePointData(this.point_b, this.point_e, this.lineWidth);
+        var x_array = [], y_array = [];
+        for(var i =0 ; i < d.length ; i++){
+            x_array[i] = d[i][0];
+            y_array[i] = d[i][1];
+        }
+        
+        this.x = Math.min.apply(this, x_array);
+        this.y = Math.min.apply(this, y_array);
+        this.w = Math.max.apply(this, x_array) - this.x;
+        this.h = Math.max.apply(this, y_array) - this.y;
 
         if(this.w < 0){
             this.x = point_e[0];
@@ -34,6 +42,7 @@ Crafty.c('Line',{
         var ctx = Crafty.canvas.context;
         ctx.strokeStyle = this.color;
         ctx.lineWidth = this.lineWidth;
+        //ctx.globalCompositeOperation = 'destination-over';
         ctx.beginPath();
         ctx.moveTo(this.point_b[0],this.point_b[1]);
         ctx.lineTo(this.point_e[0],this.point_e[1]);
@@ -64,7 +73,6 @@ Crafty.c('Line',{
 
     containsPoint: function(x,y,r){
         dia = (r || 0) * 2;
-        console.log(dia);
         if(this.lineWidth > dia){
             var allPoints = new Crafty.polygon(this.linePointData(this.point_b, this.point_e, this.lineWidth - dia));
 
