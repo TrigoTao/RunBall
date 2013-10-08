@@ -5,10 +5,10 @@ Experiment = {
         Crafty.init(WIDTH, HEIGHT);
         Crafty.background('rgb(127,127,127)');
 
+        //add beep sound
+        Crafty.audio.add("warn", "workspace/2HAND/assets/sounds/beep-1.mp3");
        
         //Paddles
-        //Crafty.e("Line").line([20,150],[10,10],20,'green')
-
         var track = Crafty.e("Track")
             .push( Crafty.e("Arc")
                     .attr({ x: 50, y: 150 })
@@ -36,6 +36,7 @@ Experiment = {
                 if(this.nowIn == false && this.lastTimeIn){
                     this.appear(250,50,5);
                     console.log('out');
+                    Crafty.audio.play("warn");
                 }
                 this.lastTimeIn = this.nowIn;
             });
