@@ -1,47 +1,70 @@
 Crafty.c('Line',{
     init: function(){
         this.requires('2D, Canvas, Color');
-        this.draw = this._draw;
         this.shape = 'Line';
+        this.draw = this._draw;
+
         return this;
-     },
+    },
  
-     line: function(point_b, point_e, lineWidth, color) {
+    line: function(point_b, point_e, lineWidth, color) {
         this.color = color || "#000000";
         this.point_e = point_e;
         this.point_b = point_b;
+        this.x = point_b[0];
+        this.y = point_b[1];
+        this.w = point_e[0] - point_b[0];
+        this.h = point_e[1] - point_b[1];
         this.lineWidth = lineWidth || 10;
-        
+
+        if(this.w < 0){
+            this.x = point_e[0];
+            this.w = -this.w;
+        }
+        if(this.h < 0){
+            this.y = point_e[1];
+            this.h = -this.h;
+        }
         this.trigger('Change');
 
         return this;
-     },
+    },
 
-     _draw: function() {
+    _draw: function() {
         var ctx = Crafty.canvas.context;
-        // var ctx = e.ctx;
-        //ctx.save();
         ctx.strokeStyle = this.color;
         ctx.lineWidth = this.lineWidth;
         ctx.beginPath();
-        ctx.moveTo(this.point_b[0],this,point_b[1]);
+        ctx.moveTo(this.point_b[0],this.point_b[1]);
         ctx.lineTo(this.point_e[0],this.point_e[1]);
         ctx.stroke();
         ctx.closePath();
-        //ctx.fill();
-        //console.log(this.x,this.y,this.radius);
+
+        console.log(this.point_b);
     },
 
     // they > 0
     linePointData: function(point_b, point_e, width, accuracy){
         var p = (accuracy || 61) - 1, d = [], width = width || 5;
-        //console.log(pi_b,Math.cos(pi_b));
-        //console.log(pi,Math.cos(pi));
+        var dx = point_e[0] - point_b[0] , dy = point_e[1] - point_b[1];
+        var length = Math.sqrt(dx*dx + dy*dy);
+        //you can draw a map to help understand
+        var width_x = width * Math.abs(dy)/length/2,
+            width_y = width * Math.abs(dx)/length/2;
+
+        var direction = dx*dy > 0 ? -1 : 1;
+        d[0] = [point_b[0] - width_x, point_b[1] - width_y * direction];
+        d[1] = [point_b[0] + width_x, point_b[1] + width_y * direction];
+        d[2] = [point_e[0] + width_x, point_e[1] + width_y * direction];
+        d[3] = [point_e[0] - width_x, point_e[1] - width_y * direction];
+
+        //console.log(d[0],d[1],d[2],d[3]);
         return d; 
     },
 
     containsPoint: function(x,y,r){
         dia = (r || 0) * 2;
+        console.log(dia);
         if(this.lineWidth > dia){
             var allPoints = new Crafty.polygon(this.linePointData(this.point_b, this.point_e, this.lineWidth - dia));
 
