@@ -1,0 +1,5 @@
+config_jigsaw = [
+    { type : "Arc", attr : { x:49, y:149 }, arc : [ 50, Math.PI/2, Math.PI*3/2, 20, 'white' ] },
+    { type : "Line", line : [ [300,150], [100,150], 20, 'white' ]},
+    { type : "Line", line : [ [300,250], [100,250], 20, 'white' ]}
+]

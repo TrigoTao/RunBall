@@ -18,6 +18,25 @@ Experiment = {
             //.push( Crafty.e("Line").line([200,20],[40,40],1,'black'))
             //.push( Crafty.e("Line").line([198.7,10.0],[38.7,30.0],1,'black') );
 
+        for (i = 0; i < config_jigsaw.length; i++) {
+            item = config_jigsaw[i];
+            console.log(item);
+
+            switch( item.type ){
+                case "Arc":
+                    arc_piece = Crafty.e("Arc");
+                    track.push( arc_piece.attr(item.attr).arc.apply(arc_piece, item.arc) );
+                    break;
+                case "Line":
+                    line_piece = Crafty.e("Line");
+                    track.push( line_piece.line.apply(line_piece, item.line) );
+                    break;
+                default:
+                    console.log('no such type');
+                    break;
+            }
+        }
+
         Crafty.e("Paddle, 2D, Canvas, Color, Collision,WiredHitBox")
             .color('rgb(0,255,0)')
             .attr({ x: 580, y: 100, w: 10, h: 100 })
