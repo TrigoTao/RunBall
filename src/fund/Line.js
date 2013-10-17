@@ -48,8 +48,6 @@ Crafty.c('Line',{
         ctx.lineTo(this.point_e[0],this.point_e[1]);
         ctx.stroke();
         ctx.closePath();
-
-        console.log(this.point_b);
     },
 
     // they > 0

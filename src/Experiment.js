@@ -11,9 +11,8 @@ Experiment = {
         //Paddles
         var track = Crafty.e("Track");
 
-        for (i = 0; i < config_jigsaw.length; i++) {
+        for (var i = 0; i < config_jigsaw.length; i++) {
             item = config_jigsaw[i];
-            console.log(item);
 
             switch( item.type ){
                 case "Arc":
@@ -31,17 +30,20 @@ Experiment = {
         }
 
         Crafty.e("Ball, Fourway")
+            .setHistoryNum(5)
             .appear(250,50,5)
             .fourway(1)
-            .bind("Moved", function(){
+            .bind("Moved", function(from){
                 var center = this.getCenter();
                 this.nowIn = track.containsPoint(center.x,center.y,5);
                 if(this.nowIn == false && this.lastTimeIn){
-                    this.appear(250,50,5);
+                    this.goBack();
                     console.log('out');
                     Crafty.audio.play("warn");
                 }
                 this.lastTimeIn = this.nowIn;
+                this.recPosHistory(this.getPos());
+                console.log(this.getPosHistory());
             });
 
         //Score boards
