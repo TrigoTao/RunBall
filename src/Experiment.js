@@ -11,8 +11,9 @@ Experiment = {
         //Paddles
         var track = Crafty.e("Track");
 
-        for (var i = 0; i < config_jigsaw.length; i++) {
-            item = config_jigsaw[i];
+        jigsaws = config_jigsaw.jigsaws;
+        for (var i = 0; i < jigsaws.length; i++) {
+            item = jigsaws[i];
 
             switch( item.type ){
                 case "Arc":
@@ -29,9 +30,10 @@ Experiment = {
             }
         }
 
+        ball_attr = config_jigsaw.ball;
         Crafty.e("Ball, Fourway")
             .setHistoryNum(5)
-            .appear(250,50,5)
+            .appear(ball_attr.x, ball_attr.y, ball_attr.r)
             .fourway(1)
             .bind("Moved", function(from){
                 var center = this.getCenter();
