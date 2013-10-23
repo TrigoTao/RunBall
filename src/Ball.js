@@ -4,6 +4,8 @@ Crafty.c('Ball',{
         this.requires('Arc');
         this.pos_history = [];
         this.history_num = 0;
+        this.wrong_times = 0;
+        this.start_end_time = 0;
         return this;
     },
 
@@ -15,7 +17,6 @@ Crafty.c('Ball',{
         for ( var i = 0; i < this.history_num ; i++ ){
             this.pos_history.push({x: x, y: y});
         }
-        console.log("appear");
         return this;
     },
 
@@ -23,7 +24,7 @@ Crafty.c('Ball',{
         // n < this.history_num
         n = ( n && n < this.history_num) ? n : this.history_num - 1;
         var back_pos = this.pos_history[n];
-        console.log(back_pos);
+        this.wrong_time ++;
         return this.appear(back_pos.x , back_pos.y, this.ball_r);
     },
 
