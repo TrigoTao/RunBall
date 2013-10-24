@@ -33,25 +33,20 @@ Experiment = {
         ball_attr = config_jigsaw.ball;
         Crafty.e("Ball, Fourway")
             .setHistoryNum(5)
+            .setOnTrack(track)
+            .setRunTimes(1)
             .appear(ball_attr.x, ball_attr.y, ball_attr.r)
             .fourway(1)
-            .bind("Moved", function(from){
-                var center = this.getCenter();
-                this.nowIn = track.containsPoint(center.x,center.y,5);
-                if(this.nowIn == false && this.lastTimeIn){
-                    this.goBack();
-                    console.log('out');
-                    Crafty.audio.play("warn");
-                }
-                this.lastTimeIn = this.nowIn;
-                this.recPosHistory(this.getPos());
-                console.log(this.getPosHistory());
-            });
+            .moveOnTrack(function(ball){
+                    console.log('over');
+                    ball.fourway(0);
+                    //score_board.text('over');
+                    score_board.text('time : ' + ball.record_time.join(',') + ' wrong :  ' +  ball.wrong_times);
+                });
 
         //Score boards
-        //Crafty.e("LeftPoints, DOM, 2D, Text")
-        //    .attr({ x: 20, y: 20, w: 100, h: 20, points: 0 })
-        //    .text("0 Points");
+        var score_board = Crafty.e("LeftPoints, DOM, 2D, Text")
+            .attr({ x: 100, y: 20, w: 100, h: 20, points: 0 });
         //Crafty.e("RightPoints, DOM, 2D, Text")
         //    .attr({ x: 515, y: 20, w: 100, h: 20, points: 0 })
         //    .text("0 Points");

@@ -6,5 +6,5 @@ config_jigsaw = {
         { type : "Line", line : [ [300,250], [100,250], 20, 'white' ]},
         { type : "Line", line : [ [300,250], [330,250], 20, 'yellow' ]}
     ],
-    ball : {x: 50, y : 50 , r : 5}
+    ball : {x: 48, y : 50 , r : 5}
 }
