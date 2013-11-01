@@ -1,8 +1,9 @@
 Experiment = {
-    start : function(ignore,WIDTH,HEIGHT){
-        WIDTH  = WIDTH  || 600;
-        HEIGHT = HEIGHT || 400;
-        Crafty.init(WIDTH, HEIGHT);
+    start : function(FRAME,WIDTH,HEIGHT){
+        WIDTH  = WIDTH  || 840;
+        HEIGHT = HEIGHT || 540;
+        console.log(FRAME);
+        Crafty.init(WIDTH, HEIGHT,FRAME);
         Crafty.background('rgb(127,127,127)');
 
         //add beep sound

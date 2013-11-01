@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../workspace/2HAND/css/jquery-ui.css" />
+    <link type="text/css" rel="stylesheet" href="../../workspace/2HAND/css/jquery.jWizard.css" />
 
-    <script type="text/javascript" src="http://craftyjs.com/release/0.5.3/crafty.js"></script>
+    <script type="text/javascript" src="../../workspace/2HAND/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../workspace/2HAND/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../workspace/2HAND/js/crafty-min.js"></script>
+    <script type="text/javascript" src="../../workspace/2HAND/js/jquery.jWizard.js"></script>
+    
     <script type="text/javascript" src="../../workspace/2HAND/src/Ball.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/src/fund/Arc.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/src/fund/Line.js"></script>
@@ -18,8 +23,75 @@
     <title> 2hand </title>
 </head>
 <body>
-    <!--canvas id="canvas" width='100' height='100'></canvas--> 
+    <!--canvas id="canvas" width='100' height='100'></canvas-->
+    <input id="hidden_correctProbability" type="hidden" value="???">
+    <!--   canvas是块级元素，放在每一step里的块级元素中，虽然浏览器不会报异常，但是没有画布的效果！！！ -->
+    <form action="servlet/COGServiceServlet" id="jWizard">
+        <!-- 首页 -->
+        <div title="Welcome to COG test!">
+            <h3 align="left">引导语;</h3>
+        </div>
+
+        <div title="Step 1">
+            TIMECOUNT: <span id="timer"></span> s
+        </div>
+        <div title="Step 2" id = 'dd'>
+        </div>
+
+        <!-- 尾页 -->
+        <div title="End of COG test!" id="end">
+            <h2>点击Finish，提交测试结果至服务器并返回2hand测试首页。</h2>
+            <h2>注意：若未点击Finish，则您将丢失测试结果，本次测试将无效！</h2>
+        </div>
+        
+        <input type="hidden" name="totalMilliSeconds" id="hidden_totalMilliSeconds" value="">
+        <input type="hidden" name="score" id="hidden_score" value="">
+    </form> 
     <script>
-        window.addEventListener('load',Experiment.start);
+        //window.addEventListener('load',Experiment.start($('#myCanvas')));
+    </script>
+
+    <!-- 初始化jWizard -->
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#jWizard").jWizard({
+            buttons: {
+                cancelType: "reset",    // Resets the form when the Cancel Button is clicked (use in conjunction with onCancel to jump to the first step)
+                finishType: "submit"    // Will 【POST the form】 when the Finish Button is clicked
+            },
+            counter: {
+                enable: true,
+                type: "percentage", // Default: "count"
+                progressbar: true,  // Default: false
+                location: "header", // Default: "footer"
+                startCount: false,  // Default: true 首页不算在进度条中（step为0）
+                startHide: true,    // Default: false 首页不显示进度条
+                finishCount: false, // Default: true 尾页算在进度条中
+                finishHide: false,  // Default: false 尾页显示进度条（100%）
+                appendText: "Done", // Default: "Complete"
+                orientText: "right" // Default: "left" ("center" is also valid)
+            },
+            next: function(event, ui) { 
+                //当步数为0时，开始计时，同时设置每隔1.8s自动翻页定时器
+                if(ui.currentStepIndex == 1) {
+                    console.log($('#dd'));
+                    Experiment.start('dd');
+                }
+            },
+            previous: function(event, ui) {
+                alert("您已开始进行测试，不可返回，请继续完成后续测试！");      
+                event.preventDefault();//阻止按钮起作用；或者采用return false;          
+            },
+            cancel: function(event, ui) {
+                var isCancel = confirm("您确定取消COG测试？点击确定将返回测试首界面，您可以继续选择参加该项交互测试。");
+                if(isCancel == true) {
+                    $("#jWizard").jWizard("firstStep");//参数中的firstStep是js文件中的函数名
+                }           
+            },
+            finish: function(event, ui) {           
+                //提交表单内容（总时间、总成绩）【至服务器】，写入数据库（在buttons的finishType中已设置）
+            }
+        });
+    });
     </script>
 </body>
