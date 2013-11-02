@@ -1,8 +1,12 @@
 Experiment = {
-    start : function(FRAME,WIDTH,HEIGHT){
+    start : function(FRAME,WIDTH,HEIGHT,over_func){
+        if(typeof over_func == 'undefined' && typeof WIDTH == 'function')
+        {
+            over_func = WIDTH;
+            WIDTH =null;
+        }
         WIDTH  = WIDTH  || 840;
         HEIGHT = HEIGHT || 540;
-        console.log(FRAME);
         Crafty.init(WIDTH, HEIGHT,FRAME);
         Crafty.background('rgb(127,127,127)');
 
@@ -43,6 +47,7 @@ Experiment = {
                     ball.fourway(0);
                     //score_board.text('over');
                     score_board.text('time : ' + ball.record_time.join(',') + ' wrong :  ' +  ball.wrong_times);
+                    over_func( ball.record_time, ball.wrong_times );            
                 });
 
         //Score boards
