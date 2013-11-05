@@ -1,3 +1,5 @@
+//  warn : depend on a global logger
+
 Crafty.c('Ball',{
     init : function() {
         this.ball_r = 0;
@@ -42,12 +44,12 @@ Crafty.c('Ball',{
         if(this.next_hop == 'head' && track.cPointInHead(center.x,center.y,this.ball_r)){
             this.record_time.push((new Date()).getTime());
             this.next_hop = 'tail';
-            console.log('head');
+            logger.debug('head');
         } 
         if(this.next_hop == 'tail' && track.cPointInTail(center.x,center.y,this.ball_r)){
             this.record_time.push((new Date()).getTime());
             this.next_hop = 'head';
-            console.log('tail');
+            logger.debug('tail');
         }
         if(this.record_time.length == this.run_times + 1){
             this.next_hop = 'end';
@@ -66,7 +68,7 @@ Crafty.c('Ball',{
             this.nowIn = track.containsPoint(center.x,center.y,this.ball_r);
             if(this.nowIn == false && this.lastTimeIn){
                 this.goBack();
-                console.log('out');
+                logger.debug('out');
                 Crafty.audio.play("warn");
             }
             this.lastTimeIn = this.nowIn;

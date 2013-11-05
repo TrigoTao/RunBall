@@ -1,12 +1,49 @@
-Experiment = {
-    start : function(FRAME,WIDTH,HEIGHT,over_func){
-        if(typeof over_func == 'undefined' && typeof WIDTH == 'function')
-        {
+//  warn : depend on a global logger
+
+function Experiment() {
+    /*
+    var logger;
+
+    getLogger = function(){
+
+        if( typeof Log4js != 'undefined' ){
+            var logger = Log4js.getLogger("Experiment"); 
+            //set the level of logging 
+            logger.setLevel(Log4js.Level.ALL); 
+            //set the Appender to write the log to 
+            logger.addAppender(new ConsoleAppender());
+
+            return logger;
+        }
+
+        if( typeof log4javascript != 'undefined' ){
+            var logger = log4javascript.getLogger()
+            var browserConsoleAppender = new log4javascript.BrowserConsoleAppender();
+            var layout = new log4javascript.PatternLayout("%d{HH:mm:ss} %-5p - %m%n");
+            browserConsoleAppender.setLayout(layout);
+            logger.addAppender(browserConsoleAppender);
+
+            return logger;
+        }
+        
+        return console;
+    }; 
+
+    this.init = function(){
+        logger = getLogger();
+    };*/
+
+    this.start = function(FRAME,WIDTH,HEIGHT,over_func) {
+        if(typeof over_func == 'undefined' && typeof WIDTH == 'function') {
             over_func = WIDTH;
             WIDTH =null;
         }
+        over_func = over_func || function(){}
         WIDTH  = WIDTH  || 840;
         HEIGHT = HEIGHT || 540;
+        Crafty('*').each( function() {
+            this.destroy();
+        });
         Crafty.init(WIDTH, HEIGHT,FRAME);
         Crafty.background('rgb(127,127,127)');
 
@@ -30,12 +67,13 @@ Experiment = {
                     track.push( line_piece.line.apply(line_piece, item.line) );
                     break;
                 default:
-                    console.log('no such type');
+                    logger.error('no such type');
                     break;
             }
         }
 
         ball_attr = config_jigsaw.ball;
+
         Crafty.e("Ball, Fourway")
             .setHistoryNum(5)
             .setOnTrack(track)
@@ -43,7 +81,7 @@ Experiment = {
             .appear(ball_attr.x, ball_attr.y, ball_attr.r)
             .fourway(1)
             .moveOnTrack(function(ball){
-                    console.log('over');
+                    //logger.debug('over');
                     ball.fourway(0);
                     //score_board.text('over');
                     score_board.text('time : ' + ball.record_time.join(',') + ' wrong :  ' +  ball.wrong_times);
@@ -56,5 +94,7 @@ Experiment = {
         //Crafty.e("RightPoints, DOM, 2D, Text")
         //    .attr({ x: 515, y: 20, w: 100, h: 20, points: 0 })
         //    .text("0 Points");
-    }
+    };
+
+    //this.init();
 }

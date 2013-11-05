@@ -1,10 +1,13 @@
 config_jigsaw = {
+    introduction : "关于本测试的规则，请自行摸索",
+    times : { practice : 1 , test : 2 },
     jigsaws : [
-        { type : "Line", line : [ [50,50], [50,80], 20, 'yellow' ]},
-        { type : "Line", line : [ [50,80], [50,200], 20, 'white' ]},
+        { type : "Line", line : [ [50,50], [50,80], 20, 'yellow' ] },
+        { type : "Line", line : [ [50,80], [50,200], 20, 'white' ] },
         { type : "Arc", attr : { x:49, y:149 }, arc : [ 50, Math.PI/2, Math.PI, 20, 'white' ] },
-        { type : "Line", line : [ [300,250], [100,250], 20, 'white' ]},
-        { type : "Line", line : [ [300,250], [330,250], 20, 'yellow' ]}
+        { type : "Line", line : [ [300,250], [100,250], 20, 'white' ] },
+        { type : "Line", line : [ [300,250], [330,250], 20, 'yellow' ] }
     ],
     ball : {x: 48, y : 50 , r : 5}
+
 }

@@ -10,6 +10,7 @@
     <script type="text/javascript" src="../../workspace/2HAND/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/js/crafty-min.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/js/jquery.jWizard.js"></script>
+    <script type="text/javascript" src="../../workspace/2HAND/js/log4javascript.js"></script>
     
     <script type="text/javascript" src="../../workspace/2HAND/src/Ball.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/src/fund/Arc.js"></script>
@@ -20,6 +21,17 @@
 
     <script type="text/javascript" src="../../workspace/2HAND/config/config_jigsaw.json"></script>
 
+    <script type="text/javascript">
+        wizard_pause = false;
+        log4javascript.setEnabled(true);
+
+        var browserConsoleAppender = new log4javascript.BrowserConsoleAppender();
+        var layout = new log4javascript.PatternLayout("%d{HH:mm:ss} %-5p - %m%n");
+        browserConsoleAppender.setLayout(layout);
+        logger = log4javascript.getLogger('Experiment');
+        logger.addAppender(browserConsoleAppender);
+        
+    </script>
     <title> 2hand </title>
 </head>
 <body>
@@ -28,14 +40,13 @@
     <!--   canvas是块级元素，放在每一step里的块级元素中，虽然浏览器不会报异常，但是没有画布的效果！！！ -->
     <form action="servlet/COGServiceServlet" id="jWizard">
         <!-- 首页 -->
-        <div title="Welcome to COG test!">
+        <div title="Welcome to 2hand test!">
             <h3 align="left">引导语;</h3>
         </div>
 
-        <div title="Step 1">
-            TIMECOUNT: <span id="timer"></span> s
+        <div title="练习" id = 'practice'>
         </div>
-        <div title="Step 2" id = 'exam'>
+        <div title="测试" id = 'test'>
         </div>
 
         <!-- 尾页 -->
@@ -52,7 +63,6 @@
 
     <!-- 初始化jWizard -->
     <script type="text/javascript">
-    wizard_pause = false;
     $(document).ready(function() {
         $("#jWizard").jWizard({
             buttons: {
@@ -74,10 +84,19 @@
             next: function(event, ui) { 
                 switch(ui.currentStepIndex) 
                 {
+                    case 0:
+                    {
+                        Experiment = new Experiment();
+                        Experiment.start('practice');
+                        break;
+                    }
                     case 1:
                     {
+                        var crafty_canvas = $('#practice canvas').detach();
+                        $('#test').append(crafty_canvas);
+                        //$('#practice').removeAttr("style").empty();
                         wizard_pause = true;
-                        Experiment.start('exam', function(record_time, wrong_times){
+                        Experiment.start('test', function(record_time, wrong_times){
                             wizard_pause = false;
                             $('#wrong_times').val(wrong_times);
                             for(var i = 0 ; i < record_time.length; i++){
