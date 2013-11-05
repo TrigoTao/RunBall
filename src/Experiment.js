@@ -73,11 +73,12 @@ function Experiment() {
         }
 
         ball_attr = config_jigsaw.ball;
+        ball_round = config_jigsaw.times[FRAME] * 2;
 
         Crafty.e("Ball, Fourway")
             .setHistoryNum(5)
             .setOnTrack(track)
-            .setRunTimes(1)
+            .setRunTimes(ball_round)
             .appear(ball_attr.x, ball_attr.y, ball_attr.r)
             .fourway(1)
             .moveOnTrack(function(ball){
