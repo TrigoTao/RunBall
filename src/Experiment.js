@@ -53,9 +53,9 @@ function Experiment() {
         //Paddles
         var track = Crafty.e("Track");
 
-        jigsaws = config_jigsaw.jigsaws;
+        var jigsaws = config_jigsaw.jigsaws;
         for (var i = 0; i < jigsaws.length; i++) {
-            item = jigsaws[i];
+            var item = jigsaws[i];
 
             switch( item.type ){
                 case "Arc":
