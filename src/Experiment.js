@@ -1,6 +1,6 @@
 //  warn : depend on a global logger
 
-function Experiment() {
+function Experiment( FRAME,WIDTH,HEIGHT ) {
     /*
     var logger;
 
@@ -28,30 +28,42 @@ function Experiment() {
         
         return console;
     }; 
+    */
 
-    this.init = function(){
-        logger = getLogger();
-    };*/
+    this.init = function( FRAME,WIDTH,HEIGHT ){
+        this.WIDTH  = WIDTH  || 840;
+        this.HEIGHT = HEIGHT || 540;
+        this.FRAME = FRAME;
 
-    this.start = function(FRAME,WIDTH,HEIGHT,over_func) {
+       // Crafty('*').each( function() {
+       //     this.destroy();
+       // });
+        logger.debug(FRAME);
+        Crafty.init(this.WIDTH, this.HEIGHT, this.FRAME);
+        logger.debug("after init");
+        Crafty.background('rgb(127,127,127)');
+    };
+
+    this.getStage = function(){
+        Crafty.viewport.reload();
+        return Crafty.stage;
+    };
+
+    this.start = function(over_func) {
         if(typeof over_func == 'undefined' && typeof WIDTH == 'function') {
             over_func = WIDTH;
             WIDTH =null;
         }
         over_func = over_func || function(){}
-        WIDTH  = WIDTH  || 840;
-        HEIGHT = HEIGHT || 540;
-        Crafty('*').each( function() {
-            this.destroy();
-        });
-        Crafty.init(WIDTH, HEIGHT,FRAME);
-        Crafty.background('rgb(127,127,127)');
 
         //add beep sound
         Crafty.audio.add("warn", "workspace/2HAND/assets/sounds/beep-1.mp3");
        
         //Paddles
         var track = Crafty.e("Track");
+        console.log(track);
+        var test = Crafty.e("2D");
+        console.log(test);
 
         var jigsaws = config_jigsaw.jigsaws;
         for (var i = 0; i < jigsaws.length; i++) {
@@ -64,6 +76,7 @@ function Experiment() {
                     break;
                 case "Line":
                     line_piece = Crafty.e("Line");
+                    console.log(line_piece);
                     track.push( line_piece.line.apply(line_piece, item.line) );
                     break;
                 default:
@@ -73,7 +86,7 @@ function Experiment() {
         }
 
         ball_attr = config_jigsaw.ball;
-        ball_round = config_jigsaw.times[FRAME] * 2;
+        ball_round = config_jigsaw.times[this.FRAME] * 2;
 
         Crafty.e("Ball, Fourway")
             .setHistoryNum(5)
@@ -97,5 +110,5 @@ function Experiment() {
         //    .text("0 Points");
     };
 
-    //this.init();
+    this.init( FRAME,WIDTH,HEIGHT );
 }

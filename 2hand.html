@@ -8,7 +8,7 @@
 
     <script type="text/javascript" src="../../workspace/2HAND/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="../../workspace/2HAND/js/crafty-min.js"></script>
+    <script type="text/javascript" src="../../workspace/2HAND/js/crafty-tx.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/js/jquery.jWizard.js"></script>
     <script type="text/javascript" src="../../workspace/2HAND/js/log4javascript.js"></script>
     
@@ -22,6 +22,7 @@
     <script type="text/javascript" src="../../workspace/2HAND/config/config_jigsaw.json"></script>
 
     <script type="text/javascript">
+
         wizard_pause = false;
         log4javascript.setEnabled(true);
 
@@ -45,8 +46,12 @@
         </div>
 
         <div title="练习" id = 'practice'>
+            <div id= 'practice_crafty'>
+            </div>
         </div>
         <div title="测试" id = 'test'>
+            <div id= 'test_crafty'>
+            </div>
         </div>
 
         <!-- 尾页 -->
@@ -86,17 +91,20 @@
                 {
                     case 0:
                     {
-                        Experiment = new Experiment();
-                        Experiment.start('practice');
+                        var experiment = new Experiment(document.getElementById('practice_crafty'));
+                        experiment.start();
+
                         break;
                     }
                     case 1:
                     {
                         var crafty_canvas = $('#practice canvas').detach();
-                        $('#test').append(crafty_canvas);
+                        $('#test_crafty').append(crafty_canvas);
                         //$('#practice').removeAttr("style").empty();
+                        Crafty.stop();
                         wizard_pause = true;
-                        Experiment.start('test', function(record_time, wrong_times){
+                        var experiment = new Experiment(document.getElementById('test_crafty'));
+                        experiment.start( function(record_time, wrong_times){
                             wizard_pause = false;
                             $('#wrong_times').val(wrong_times);
                             for(var i = 0 ; i < record_time.length; i++){
