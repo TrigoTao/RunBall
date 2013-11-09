@@ -61,9 +61,7 @@ function Experiment( FRAME,WIDTH,HEIGHT ) {
        
         //Paddles
         var track = Crafty.e("Track");
-        console.log(track);
         var test = Crafty.e("2D");
-        console.log(test);
 
         var jigsaws = config_jigsaw.jigsaws;
         for (var i = 0; i < jigsaws.length; i++) {
@@ -76,7 +74,6 @@ function Experiment( FRAME,WIDTH,HEIGHT ) {
                     break;
                 case "Line":
                     line_piece = Crafty.e("Line");
-                    console.log(line_piece);
                     track.push( line_piece.line.apply(line_piece, item.line) );
                     break;
                 default:
@@ -93,7 +90,7 @@ function Experiment( FRAME,WIDTH,HEIGHT ) {
             .setOnTrack(track)
             .setRunTimes(ball_round)
             .appear(ball_attr.x, ball_attr.y, ball_attr.r)
-            .fourway(1)
+            .fourway(2)
             .moveOnTrack(function(ball){
                     //logger.debug('over');
                     ball.fourway(0);

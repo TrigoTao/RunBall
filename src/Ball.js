@@ -10,10 +10,13 @@ Crafty.c('Ball',{
         this.record_time = [];
         this.next_hop = 'head';
         this.total_run = 1;
+        this.BACK_THRESHOLD = 1;
+
         return this;
     },
 
     appear : function(x, y, ball_r){
+
         this.ball_r = ball_r;
         this.attr({x: x, y: y})
             .arc(ball_r,0,Math.PI * 2,1);
@@ -21,14 +24,25 @@ Crafty.c('Ball',{
         for ( var i = 0; i < this.history_num ; i++ ){
             this.pos_history.push({x: x, y: y});
         }
+
         return this;
     },
 
     goBack : function(n){
         // n < this.history_num
+        
+        this.wrong_times ++;
+
         n = ( n && n < this.history_num) ? n : this.history_num - 1;
         var back_pos = this.pos_history[n];
-        this.wrong_times ++;
+        var now_pos = this.getPos();
+        var dx = now_pos.x - back_pos.x;
+        var dy = now_pos.y - back_pos.y;
+        if( Math.abs(dx) + Math.abs(dy) <= this.BACK_THRESHOLD * 2 ) {
+            back_pos.x = back_pos.x - dx;
+            back_pos.y = back_pos.y - dy;
+        }
+
         return this.appear(back_pos.x , back_pos.y, this.ball_r);
     },
 
@@ -57,6 +71,7 @@ Crafty.c('Ball',{
     },
 
     moveOnTrack : function(track, finish_go){
+
         if(!track ||  typeof(track) == 'function'){
             finish_go = track;
             track = null;
@@ -66,13 +81,18 @@ Crafty.c('Ball',{
         this.bind("Moved", function(from){
             var center = this.getCenter();
             this.nowIn = track.containsPoint(center.x,center.y,this.ball_r);
+            
             if(this.nowIn == false && this.lastTimeIn){
                 this.goBack();
                 logger.debug('out');
                 Crafty.audio.play("warn");
+                this.nowIn = true;
             }
             this.lastTimeIn = this.nowIn;
-            this.recPosHistory(this.getPos());
+            if( this.nowIn ){
+                this.recPosHistory(this.getPos());
+            }
+            
             this.recTime();
 
             if(this.next_hop == 'end'){
