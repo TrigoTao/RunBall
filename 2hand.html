@@ -46,11 +46,11 @@
         </div>
 
         <div title="练习" id = 'practice'>
-            <div id= 'practice_crafty'>
+            <div id= 'practice_game'>
             </div>
         </div>
         <div title="测试" id = 'test'>
-            <div id= 'test_crafty'>
+            <div id= 'test_game'>
             </div>
         </div>
 
@@ -91,7 +91,7 @@
                 {
                     case 0:
                     {
-                        var experiment = new Experiment(document.getElementById('practice_crafty'));
+                        var experiment = new Experiment('practice_game');
                         experiment.start();
 
                         break;
@@ -99,11 +99,11 @@
                     case 1:
                     {
                         var crafty_canvas = $('#practice canvas').detach();
-                        $('#test_crafty').append(crafty_canvas);
+                        $('#test_game').append(crafty_canvas);
                         //$('#practice').removeAttr("style").empty();
                         Crafty.stop();
                         wizard_pause = true;
-                        var experiment = new Experiment(document.getElementById('test_crafty'));
+                        var experiment = new Experiment('test_game');
                         experiment.start( function(record_time, wrong_times){
                             wizard_pause = false;
                             $('#wrong_times').val(wrong_times);

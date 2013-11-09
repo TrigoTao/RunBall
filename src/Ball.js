@@ -55,6 +55,7 @@ Crafty.c('Ball',{
     recTime : function(){
         track = this.track;
         var center = this.getCenter();
+        logger.debug('tims.length' + this.record_time.length + '/' + this.run_times)
         if(this.next_hop == 'head' && track.cPointInHead(center.x,center.y,this.ball_r)){
             this.record_time.push((new Date()).getTime());
             this.next_hop = 'tail';

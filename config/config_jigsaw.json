@@ -1,6 +1,6 @@
 config_jigsaw = {
     introduction : "关于本测试的规则，请自行摸索",
-    times : { practice : 1 , test : 2 },
+    times : { practice_game : 1 , test_game : 2 },
     jigsaws : [
         { type : "Line", line : [ [50,50], [50,80], 20, 'yellow' ] },
         { type : "Line", line : [ [50,80], [50,200], 20, 'white' ] },
