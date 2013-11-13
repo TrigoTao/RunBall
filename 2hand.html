@@ -138,6 +138,8 @@
             },
             finish: function(event, ui) {           
                 //提交表单内容（总时间、总成绩）【至服务器】，写入数据库（在buttons的finishType中已设置）
+                event.preventDefault();
+                alert("game over");
             }
         });
     });
