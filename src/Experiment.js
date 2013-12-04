@@ -57,7 +57,7 @@ function Experiment( FRAME,WIDTH,HEIGHT ) {
         over_func = over_func || function(){}
 
         //add beep sound
-        Crafty.audio.add("warn", "workspace/2HAND/assets/sounds/beep-1.mp3");
+        Crafty.audio.add("warn", "../../workspace/2HAND/assets/sounds/beep-1.mp3");
        
         //Paddles
         var track = Crafty.e("Track");
@@ -86,7 +86,7 @@ function Experiment( FRAME,WIDTH,HEIGHT ) {
         ball_round = config_jigsaw.times[this.FRAME] * 2;
 
         Crafty.e("Ball, Fourway")
-            .setHistoryNum(5)
+            .setHistoryNum(3)
             .setOnTrack(track)
             .setRunTimes(ball_round)
             .appear(ball_attr.x, ball_attr.y, ball_attr.r)
