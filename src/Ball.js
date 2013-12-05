@@ -35,7 +35,7 @@ Crafty.c('Ball',{
 
         n = ( n && n < this.history_num) ? n : this.history_num - 1;
         var back_pos = this.pos_history[n];
-        /*
+        
         var now_pos = this.getPos();
         var dx = now_pos.x - back_pos.x;
         var dy = now_pos.y - back_pos.y;
@@ -43,7 +43,7 @@ Crafty.c('Ball',{
             back_pos.x = back_pos.x - dx;
             back_pos.y = back_pos.y - dy;
         }
-        */
+        
         return this.appear(back_pos.x , back_pos.y, this.ball_r);
     },
 
